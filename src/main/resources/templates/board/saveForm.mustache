@@ -19,31 +19,30 @@
         </div>
     </div>
 </div>
-
 <script>
-    function btnWrite() {
+    function btnWrite() { //1. 값들고오기 2. json변경 3. 통신요청 4. 요청 성공, 실패
         let board = { // js 오브젝트
             title: $("#title").val(), // value값 들고 옴
             content: $("#content").val(), // value값 들고 옴
             author: $("#author").val() // value값 들고 옴
         };
-        console.log(board); // 잘 들고 오는지 확인
+        console.log(board);
 
         // 통신해서 보내기 위해 json으로 변경
         let boardJson = JSON.stringify(board);
-        console.log(boardJsond);
+        console.log(boardJson);
 
         $.ajax({
-            url: "api/boards/",
-            type: "post",
-            data: JSON.stringify(board),
+            url : "/api/boards",
+            type : "post",
+            data : JSON.stringify(board),
             contentType: "application/json; charset=utf-8"
-        }).done((res) => {
-            location.href = "/";
-        }).fail((res) => {
-            alert(res.responseJSON.msg);
+        }).done((res)=>{
+            location.href="/";
+        }).fail((res)=>{
+            alert(res.responseJson.msg);
         });
     }
-</script>
 
+</script>
 {{> layout/footer}}
