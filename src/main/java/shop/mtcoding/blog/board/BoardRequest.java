@@ -10,4 +10,11 @@ public class BoardRequest {
         private String content;
         private String author;
     }
+
+    @Data
+    public static class UpdateDTO{ // json으로 받을 DTO
+        private String title;
+        private String content;
+        private String author;
+    }
 }
