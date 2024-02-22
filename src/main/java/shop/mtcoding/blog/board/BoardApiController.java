@@ -2,10 +2,7 @@ package shop.mtcoding.blog.board;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,6 +10,12 @@ import java.util.List;
 @RestController // 데이러틀 리턴
 public class BoardApiController {
     private final BoardRepository boardRepository; // DI
+
+    @PostMapping("/api/boards")
+    public ApiUtil<?> write(@RequestBody BoardRequest.WriteDTO requestDTO){
+        boardRepository.insert(requestDTO);
+        return new ApiUtil<>(null);
+    }
 
     // 삭제하기
     @DeleteMapping("api/boards/{id}") // 보드 중에 몇번을 삭제할게

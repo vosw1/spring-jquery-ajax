@@ -27,9 +27,9 @@ function del(boardId) {
         type: "delete"
     }).done((res) => {
         $(`#board-${boardId}`).remove();
-        location.reload(); // F5 강제로 해주기
     }).fail((res) => {
         alert(res.responseJSON.msg);
+        location.reload(); // F5 강제로 해주기
     });
 }
 
