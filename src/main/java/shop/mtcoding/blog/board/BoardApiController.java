@@ -2,7 +2,9 @@ package shop.mtcoding.blog.board;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -11,6 +13,18 @@ import java.util.List;
 @RestController // 데이러틀 리턴
 public class BoardApiController {
     private final BoardRepository boardRepository; // DI
+
+    // 삭제하기
+    @DeleteMapping("api/boards/{id}") // 보드 중에 몇번을 삭제할게
+    public ApiUtil<?> deleteById(@PathVariable Integer id, HttpServletResponse response) {
+        Board board = boardRepository.selectOne(id);
+        if (board == null) {
+            response.setStatus(404);
+            return new ApiUtil<>(404, "해당 데이터를 찾을 수 없습니다");
+        }
+        boardRepository.deleteById(id);
+        return new ApiUtil<>(null); // 삭제는 데이터를 줄 것이 없음
+    }
 
     // 주소 만들기
     @GetMapping("api/boards") // 보드 줘라는 주소, 복수는 보드들 줘, 보드들 중에 1번 줘해서 복수형을 씀

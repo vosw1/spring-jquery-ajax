@@ -11,6 +11,7 @@
             <th>작성자</th>
             <th></th>
         </tr>
+
         </thead>
         <tbody id="board-box">
 
@@ -18,28 +19,42 @@
     </table>
 
 </div>
-<script>
+
+<script> // 나중에 js 파일을 따로 빼서 링크를 걸게 됨
+function del(boardId) {
     $.ajax({
-        url: "/api/boards", //서버가 같으면 8080뒤에 있는 주소는 뒤에 것만 적어도 됨
-        type: "get" // poset면 컨텐트타입, 데이터가 추가로 들어감
-    }).done((res) => { // 정상(200)이면 done->바디 데이터
-        console.log("통신 성공");
-        console.log(res);
-
-        // for(board of boardList){}도 가능하나 stream api를 쓰는 것이 좋음
-        let boardList = res.body;
-        boardList.forEach((board)=>{
-            $("#board-box").append(render(board));
-        });
-
+        url: `api/boards/${boardId}`,
+        type: "delete"
+    }).done((res) => {
+        $(`#board-${boardId}`).remove();
+        location.reload(); // F5 강제로 해주기
     }).fail((res) => {
-        //console.log(res);
         alert(res.responseJSON.msg);
-        // location.herf="/loginForm";
-    }); // 실패면 다 fail
+    });
+}
 
-    function render(board) {
-        return `<tr id="board-${board.id}">
+// 페이지 로드될때 무조건 시작되야 도니까 밖에 있음
+$.ajax({
+    url: "/api/boards", //서버가 같으면 8080뒤에 있는 주소는 뒤에 것만 적어도 됨
+    type: "get" // poset면 컨텐트타입, 데이터가 추가로 들어감
+}).done((res) => { // 정상(200)이면 done->바디 데이터
+    console.log("통신 성공");
+    console.log(res);
+
+    // for(board of boardList){}도 가능하나 stream api를 쓰는 것이 좋음
+    let boardList = res.body;
+    boardList.forEach((board) => {
+        $("#board-box").append(render(board));
+    });
+
+}).fail((res) => {
+    //console.log(res);
+    alert(res.responseJSON.msg);
+    // location.herf="/loginForm";
+}); // 실패면 다 fail
+
+function render(board) {
+    return `<tr id="board-${board.id}">
             <td>${board.id}</td>
             <td>${board.title}</td>
             <td>${board.content}</td>
@@ -53,7 +68,7 @@
                 </div>
             </td>
         </tr>`;
-    }
+}
 </script>
 
 {{> layout/footer}}
