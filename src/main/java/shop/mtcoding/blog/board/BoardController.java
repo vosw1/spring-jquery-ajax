@@ -27,23 +27,8 @@ public class BoardController {
 
     @GetMapping("/board/{id}/updateForm")
     public String updateForm(@PathVariable int id, BoardRequest.UpdateDTO requestDTO, HttpServletRequest request) {
-        Board board = boardRepository.selectOne(id); // 해당 보드의 정보를 가져옴
-        request.setAttribute("board", board); // HttpServletRequest에 보드 객체를 추가
+        Board board = boardRepository.selectOne(id); // id 조회해서 가져오기
+        request.setAttribute("board", board); // 가방에 담기
         return "board/updateForm";
-    }
-
-    @PostMapping("/board/save")
-    public String save(){
-        return "redirect:/";
-    }
-
-    @PostMapping("/board/{id}/update")
-    public String update(@PathVariable int id) {
-        return "board/updateForm";
-    }
-
-    @PostMapping("/board/{id}/delete")
-    public String delete(@PathVariable int id){
-        return "redirect:/";
     }
 }

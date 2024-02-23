@@ -11,7 +11,7 @@ import java.util.List;
 public class BoardApiController {
     private final BoardRepository boardRepository; // DI
 
-    @PostMapping("/api/boards/{id}")
+    @PutMapping("/api/boards/{id}")
     public ApiUtil<?> update(@RequestBody BoardRequest.UpdateDTO requestDTO, @PathVariable Integer id){
         boardRepository.updateById(requestDTO, id);
         return new ApiUtil<>(null);

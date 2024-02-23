@@ -6,13 +6,13 @@
         <div class="card-body">
             <form action="#">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter author" id="author">
+                    <input type="text" class="form-control" placeholder="{{board.author}}" id="author">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" id="title">
+                    <input type="text" class="form-control" placeholder="{{board.title}}" id="title">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" id="content"></textarea>
+                    <textarea class="form-control" rows="5" placeholder="{{board.content}}" id="content"></textarea>
                 </div>
                 <button type="button" onclick="btnUpdate()" class="btn btn-primary form-control">글수정완료</button>
             </form>
@@ -34,7 +34,7 @@
 
         $.ajax({
             url: "/api/boards/{{board.id}}",
-            type: "post",
+            type: "put",
             data: JSON.stringify(board),
             contentType: "application/json; charset=utf-8"
         }).done((res) => {
